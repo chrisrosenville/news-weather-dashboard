@@ -1,0 +1,183 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --font-display: var(--font-display);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-amber: var(--amber);
+  --color-amber-muted: var(--amber-muted);
+  --color-ice: var(--ice);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #f5f2ec;
+  --foreground: #1a1815;
+  --card: #ffffff;
+  --card-foreground: #1a1815;
+  --popover: #ffffff;
+  --popover-foreground: #1a1815;
+  --primary: #b8922e;
+  --primary-foreground: #ffffff;
+  --secondary: #ebe7df;
+  --secondary-foreground: #3d3a33;
+  --muted: #ebe7df;
+  --muted-foreground: #8a8478;
+  --accent: #e5e0d6;
+  --accent-foreground: #1a1815;
+  --destructive: #c4453a;
+  --border: #d8d3c9;
+  --input: #d8d3c9;
+  --ring: #8a6d1b;
+  --radius: 0.625rem;
+  --amber: #8a6d1b;
+  --amber-muted: #8a6d1b20;
+  --ice: #4a9aba;
+  --font-display: var(--font-playfair);
+  --font-heading: var(--font-playfair);
+  --chart-1: #b8922e;
+  --chart-2: #4a9aba;
+  --chart-3: #8b7355;
+  --chart-4: #5a8fa8;
+  --chart-5: #c4453a;
+  --sidebar: #faf8f5;
+  --sidebar-foreground: #1a1815;
+  --sidebar-primary: #b8922e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ebe7df;
+  --sidebar-accent-foreground: #1a1815;
+  --sidebar-border: #d8d3c9;
+  --sidebar-ring: #b8922e;
+}
+
+.dark {
+  --background: #06060b;
+  --foreground: #e8e4dc;
+  --card: #0d0d14;
+  --card-foreground: #e8e4dc;
+  --popover: #0d0d14;
+  --popover-foreground: #e8e4dc;
+  --primary: #d4a853;
+  --primary-foreground: #06060b;
+  --secondary: #161621;
+  --secondary-foreground: #c8c3b8;
+  --muted: #12121c;
+  --muted-foreground: #7a7568;
+  --accent: #1a1a28;
+  --accent-foreground: #e8e4dc;
+  --destructive: #c4453a;
+  --border: #1e1e2e;
+  --input: #1e1e2e;
+  --ring: #d4a853;
+  --amber: #d4a853;
+  --amber-muted: #d4a85320;
+  --ice: #7eb8d4;
+  --chart-1: #d4a853;
+  --chart-2: #7eb8d4;
+  --chart-3: #8b7355;
+  --chart-4: #5a8fa8;
+  --chart-5: #c4453a;
+  --sidebar: #0d0d14;
+  --sidebar-foreground: #e8e4dc;
+  --sidebar-primary: #d4a853;
+  --sidebar-primary-foreground: #06060b;
+  --sidebar-accent: #1a1a28;
+  --sidebar-accent-foreground: #e8e4dc;
+  --sidebar-border: #1e1e2e;
+  --sidebar-ring: #d4a853;
+}
+
+/* ── Animations ── */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease both;
+}
+
+/* ── Editorial divider ── */
+.editorial-rule {
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* ── Selection color ── */
+::selection {
+  background: var(--amber);
+  color: var(--background);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
