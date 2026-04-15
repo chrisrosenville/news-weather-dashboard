@@ -96,31 +96,6 @@ function StandardCard({ article, index }: { article: Article; index: number }) {
   );
 }
 
-function CompactCard({ article, index }: { article: Article; index: number }) {
-  return (
-    <ArticleLink
-      href={article.url}
-      index={index}
-      className="flex items-start gap-3 rounded-lg border border-border px-4 py-3 transition-colors hover:border-amber/30"
-    >
-      <div className="flex flex-col gap-1">
-        <h3 className="text-sm font-medium leading-snug text-foreground/90 transition-colors group-hover:text-amber">
-          {article.title}
-        </h3>
-        <div className="flex items-center gap-2">
-          <ArticleMeta
-            source={article.thread?.site_full || "Source"}
-            published={article.published}
-            showIcon={false}
-            sourceClassName="text-[9px] tracking-wider text-muted-foreground/50"
-            timeClassName="text-[9px] text-muted-foreground/40"
-          />
-        </div>
-      </div>
-    </ArticleLink>
-  );
-}
-
 interface NewsGridProps {
   articles: Article[];
 }
@@ -136,9 +111,9 @@ export function NewsGrid({ articles }: NewsGridProps) {
     );
   }
 
-  const featured = articles.slice(0, 2);
-  const standard = articles.slice(2, 6);
-  const compact = articles.slice(6, 14);
+  const topFive = articles.slice(0, 5);
+  const featured = topFive.slice(0, 1);
+  const supporting = topFive.slice(1, 5);
 
   return (
     <section className="flex flex-col gap-6">
@@ -148,41 +123,24 @@ export function NewsGrid({ articles }: NewsGridProps) {
           Latest from Denmark
         </h2>
         <div className="editorial-rule flex-1" />
-        <MonoLabel>{articles.length} articles</MonoLabel>
+        <MonoLabel>{topFive.length} of {articles.length} articles</MonoLabel>
       </div>
 
-      {/* Featured row */}
+      {/* Featured article */}
       {featured.length > 0 && (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4">
           {featured.map((article, i) => (
             <FeaturedCard key={article.uuid} article={article} index={i} />
           ))}
         </div>
       )}
 
-      {/* Standard grid */}
-      {standard.length > 0 && (
+      {/* Supporting articles */}
+      {supporting.length > 0 && (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {standard.map((article, i) => (
-            <StandardCard key={article.uuid} article={article} index={i + 2} />
+          {supporting.map((article, i) => (
+            <StandardCard key={article.uuid} article={article} index={i + 1} />
           ))}
-        </div>
-      )}
-
-      {/* Compact list */}
-      {compact.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-3 py-2">
-            <MonoLabel className="text-muted-foreground">
-              More Headlines
-            </MonoLabel>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-          <div className="grid gap-2 md:grid-cols-2">
-            {compact.map((article, i) => (
-              <CompactCard key={article.uuid} article={article} index={i} />
-            ))}
-          </div>
         </div>
       )}
     </section>
