@@ -2,9 +2,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 
 function Skeleton({ className }: { className?: string }) {
   return (
-    <div
-      className={`animate-pulse rounded-lg bg-muted ${className ?? ""}`}
-    />
+    <div className={`animate-pulse rounded-lg bg-muted ${className ?? ""}`} />
   );
 }
 
