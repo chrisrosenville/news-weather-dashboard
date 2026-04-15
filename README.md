@@ -1,6 +1,11 @@
-# Aarhus Dashboard — Weather & News
+# Aarhus Dashboard - Weather and News
 
-A dashboard displaying current weather for Aarhus and the latest news from Denmark. Built with Next.js, React, TypeScript, Tailwind CSS, and Shadcn UI.
+Simple internal dashboard for:
+
+- current weather in Aarhus
+- latest news from Denmark
+
+Built with Next.js, React, TypeScript, Tailwind CSS, Shadcn UI, and Zod.
 
 ## Setup and Run
 
@@ -9,7 +14,7 @@ A dashboard displaying current weather for Aarhus and the latest news from Denma
 - Node.js 20+
 - npm
 
-### Install dependencies
+### Install
 
 ```bash
 npm install
@@ -17,48 +22,80 @@ npm install
 
 ### Environment variables
 
-Create a `.env` file in the project root with the following variables:
+Create `.env` in project root:
 
-```
+```bash
 NEWS_API_URL=<your news API endpoint>
 WEATHER_API_URL=<your weather API endpoint>
 ```
 
-See .env.example
+Use `.env.example` as reference.
 
-### Run the development server
+### Run locally
 
 ```bash
 npm run dev
 ```
 
-The app will be available at [http://localhost:3000](http://localhost:3000).
+Open `http://localhost:3000`.
 
-### Production build
+### Build and run production
 
 ```bash
 npm run build
 npm start
 ```
 
+## Architecture (Short)
+
+- `app/page.tsx`: server-rendered page. Fetches weather and news in parallel.
+- `lib/api.ts`: API calls, timeouts, and Zod validation.
+- `lib/env.ts`: validates required env vars at startup.
+- `app/loading.tsx`: route loading skeleton UI.
+- `app/error.tsx`: route error boundary with retry action.
+- `components/dashboard/*`: presentational UI components.
+
+## Loading, Error, and Edge-Case Behavior
+
+- Loading: `app/loading.tsx` renders skeletons while route data resolves.
+- Uncaught route errors: `app/error.tsx` renders fallback UI and supports retry.
+- Weather API failure: weather card is replaced by "Weather data unavailable".
+- News API failure: returns empty list; UI shows "No news articles available".
+- Slow APIs: requests time out after 10 seconds via `AbortController`.
+
+## Validation and Data Contracts
+
+- Environment variables are validated using Zod in `lib/env.ts`.
+- News and weather API payloads are validated in `lib/api.ts`.
+- News data allows nullable fields where needed (for example `categories` and `sentiment`).
+
 ## Assumptions and Trade-offs
 
-- Weather and news are fetched at build/request time in a React Server Component. There is no client-side polling or revalidation. The page shows a snapshot of the data at render time. This keeps the client bundle small and avoids exposing API keys to the browser.
-- The API URLs (including tokens) are read directly from environment variables. A production setup would benefit from a backend proxy or edge function to avoid embedding keys in the URL.
-- Article filtering happens in-browser over the already-fetched dataset rather than querying the API with search params. This is fine for the current payload size but wouldn't scale to thousands of articles.
-- If the weather API fails, a simple "unavailable" message is shown. News failure returns an empty array. There are no retry mechanisms or detailed error messages for the user.
-- The layout adapts from mobile to desktop, but no special consideration was given to tablet-specific layouts or very large screens.
+- Data is fetched on the server. There is no polling or ISR yet.
+- Search is client-side filtering on already-fetched articles.
+- API URLs are provided via env vars (including tokens), which is simple but not ideal for production key management.
+- Validation currently focuses on fields used by the UI, while allowing extra fields.
+
+## Troubleshooting
+
+- Build fails with env error:
+  - verify `NEWS_API_URL` and `WEATHER_API_URL` are present and valid URLs.
+- Console shows "Failed to fetch ...":
+  - confirm API key/token is valid.
+  - confirm endpoint still returns the expected JSON shape.
+- Weather missing on page:
+  - weather fetch failed: check server logs for timeout/HTTP/validation errors.
+- Empty news list:
+  - news fetch failed or API returned no posts: check server logs.
 
 ## Time Spent
 
-About 2–3 hours total.
+About 3-4 hours total.
 
 ## What I Would Improve With More Time
 
-- Add ISR or client-side polling for keeping the dashboard up-to-date without having to do a full page reload
-- Add skeleton placeholders while data is being fetched
-- Add tests for utility functions and the data-fetching layer
-- Add accessibility (aria attributes, focus states etc.)
-- Pagination or infinite scroll (with a different layout). The free tier of the news api limits amount of articles from the response.
-- Error boundaries, retry actions
-- Caching to reduce API calls and improve load times
+- Add automated tests for API parsing, utilities, and core UI states.
+- Add ISR or background revalidation for fresher data.
+- Add richer operational monitoring (structured logs, error reporting).
+- Improve accessibility audit coverage (focus, labels, keyboard flow).
+- Add pagination or query-based API search for larger datasets.
