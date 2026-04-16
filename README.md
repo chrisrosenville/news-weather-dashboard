@@ -71,7 +71,7 @@ npm start
 
 ## Assumptions and Trade-offs
 
-- Data is fetched on the server. There is no polling or ISR yet.
+- Data is fetched on the server. ISR is not implemented.
 - Search is client-side filtering on already-fetched articles.
 - API URLs are provided via env vars (including tokens), which is simple but not ideal for production key management.
 - Validation currently focuses on fields used by the UI, while allowing extra fields.
@@ -90,12 +90,12 @@ npm start
 
 ## Time Spent
 
-About 3-4 hours total.
+About 4 hours total.
 
 ## What I Would Improve With More Time
 
 - Add automated tests for API parsing, utilities, and core UI states.
 - Add ISR or background revalidation for fresher data.
-- Add richer operational monitoring (structured logs, error reporting).
-- Improve accessibility audit coverage (focus, labels, keyboard flow).
-- Add pagination or query-based API search for larger datasets.
+- Improve accessibility (focus, labels, keyboard flow).
+- Add pagination or query-based API search.
+- Improve caching strategy

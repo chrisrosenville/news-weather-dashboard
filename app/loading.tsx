@@ -44,44 +44,42 @@ export default function Loading() {
         </div>
 
         {/* Search skeleton */}
-        <Skeleton className="h-11 w-full rounded-xl" />
+        <div className="h-11 w-full rounded-xl border border-border bg-card" />
 
         {/* News section skeleton */}
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-4">
             <Skeleton className="h-7 w-48" />
-            <div className="h-px flex-1 bg-border" />
+            <div className="editorial-rule flex-1" />
             <Skeleton className="h-3 w-20" />
           </div>
 
           {/* Featured row */}
           <div className="grid gap-4 md:grid-cols-2">
-            {Array.from({ length: 2 }).map((_, i) => (
+            {Array.from({ length: 5 }).map((_, i) => (
               <div
                 key={i}
                 className="flex flex-col gap-4 rounded-xl border border-border bg-card p-5 md:p-6"
               >
-                <Skeleton className="h-3 w-40" />
-                <Skeleton className="h-6 w-full" />
-                <Skeleton className="h-4 w-3/4" />
-                <div className="flex gap-1.5">
-                  <Skeleton className="h-4 w-14 rounded-md" />
-                  <Skeleton className="h-4 w-14 rounded-md" />
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-3 w-40" />
+                  <Skeleton className="ml-auto h-5 w-16 rounded-md" />
                 </div>
-              </div>
-            ))}
-          </div>
 
-          {/* Standard grid */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4"
-              >
-                <Skeleton className="h-3 w-28" />
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-3 w-3/4" />
+                <div className="space-y-2">
+                  <Skeleton className="h-7 w-full" />
+                  <Skeleton className="h-7 w-5/6" />
+                </div>
+
+                <div className="space-y-2">
+                  <Skeleton className="h-3 w-full" />
+                  <Skeleton className="h-3 w-11/12" />
+                  <Skeleton className="h-3 w-2/3" />
+                </div>
+
+                <div className="mt-auto flex justify-end pt-2">
+                  <Skeleton className="h-4 w-4 rounded-sm" />
+                </div>
               </div>
             ))}
           </div>
