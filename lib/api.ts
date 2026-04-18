@@ -4,13 +4,20 @@ import type { WeatherResponse } from "@/types/weather";
 
 // --- Shared fetch helper with timeout ---
 const FETCH_TIMEOUT_MS = 10_000;
+const cacheExpireTime = 10 * 60; // 10 minutes
 
-async function fetchWithTimeout(url: string): Promise<Response> {
+async function fetchWithTimeout(
+  url: string,
+  revalidate: number,
+): Promise<Response> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
   try {
-    const response = await fetch(url, { signal: controller.signal });
+    const response = await fetch(url, {
+      signal: controller.signal,
+      next: { revalidate },
+    });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
@@ -23,7 +30,7 @@ async function fetchWithTimeout(url: string): Promise<Response> {
 // --- Public API functions ---
 export async function fetchNews(): Promise<Article[]> {
   try {
-    const response = await fetchWithTimeout(env.NEWS_API_URL);
+    const response = await fetchWithTimeout(env.NEWS_API_URL, cacheExpireTime);
     const json = await response.json();
     return json.posts as Article[];
   } catch (error) {
@@ -34,7 +41,10 @@ export async function fetchNews(): Promise<Article[]> {
 
 export async function fetchWeather(): Promise<WeatherResponse | null> {
   try {
-    const response = await fetchWithTimeout(env.WEATHER_API_URL);
+    const response = await fetchWithTimeout(
+      env.WEATHER_API_URL,
+      cacheExpireTime,
+    );
     const json = await response.json();
     return json as WeatherResponse;
   } catch (error) {
