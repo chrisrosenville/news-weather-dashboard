@@ -62,8 +62,6 @@ export function NewsGrid({ articles }: NewsGridProps) {
     );
   }
 
-  const topFive = articles.slice(0, 5);
-
   return (
     <section className="flex flex-col gap-6">
       {/* Section header */}
@@ -72,13 +70,13 @@ export function NewsGrid({ articles }: NewsGridProps) {
           Latest from Denmark
         </h2>
         <div className="editorial-rule flex-1" />
-        <MonoLabel>{topFive.length} articles</MonoLabel>
+        <MonoLabel>{articles.length} articles</MonoLabel>
       </div>
 
       {/* Featured article */}
-      {topFive.length > 0 && (
+      {articles.length > 0 && (
         <div className="grid md:grid-cols-2 gap-4">
-          {topFive.map((article) => (
+          {articles.map((article) => (
             <FeaturedCard key={article.uuid} article={article} />
           ))}
         </div>

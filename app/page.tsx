@@ -1,6 +1,7 @@
 import { fetchNews, fetchWeather } from "@/lib/api";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { WeatherHero } from "@/components/dashboard/weather-hero";
+import { GitHubLeaderboard } from "@/components/dashboard/github-leaderboard";
 import { NewsSection } from "@/components/dashboard/news-section";
 import { MonoLabel } from "@/components/dashboard/mono-label";
 import { CloudOff } from "lucide-react";
@@ -13,17 +14,20 @@ export default async function Home() {
       <DashboardHeader />
 
       <div className="flex flex-1 flex-col gap-8 px-6 py-8 md:px-10">
-        {/* Weather section */}
-        {weather ? (
-          <WeatherHero weather={weather} />
-        ) : (
-          <div className="flex items-center justify-center gap-3 rounded-xl border border-border bg-card p-12">
-            <CloudOff className="h-5 w-5 text-muted-foreground" />
-            <p className="font-mono text-sm text-muted-foreground">
-              Weather data unavailable
-            </p>
-          </div>
-        )}
+        {/* Weather + Leaderboard row */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_minmax(320px,400px)]">
+          {weather ? (
+            <WeatherHero weather={weather} />
+          ) : (
+            <div className="flex items-center justify-center gap-3 rounded-xl border border-border bg-card p-12">
+              <CloudOff className="h-5 w-5 text-muted-foreground" />
+              <p className="font-mono text-sm text-muted-foreground">
+                Weather data unavailable
+              </p>
+            </div>
+          )}
+          <GitHubLeaderboard />
+        </div>
 
         {/* News section */}
         <NewsSection articles={news} />

@@ -104,7 +104,7 @@ export function WeatherHero({ weather }: WeatherHeroProps) {
         <div className="editorial-rule my-5" />
 
         {/* Stats grid */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <WeatherStat
             icon={Wind}
             label="Wind"

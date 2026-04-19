@@ -10,19 +10,37 @@ interface NewsSectionProps {
   articles: Article[];
 }
 
+function getArticleTimestamp(article: Article): number {
+  const primary = Date.parse(article.published ?? "");
+  if (Number.isFinite(primary)) return primary;
+
+  const fallbackUpdated = Date.parse(article.updated ?? "");
+  if (Number.isFinite(fallbackUpdated)) return fallbackUpdated;
+
+  const fallbackCrawled = Date.parse(article.crawled ?? "");
+  if (Number.isFinite(fallbackCrawled)) return fallbackCrawled;
+
+  return 0;
+}
+
 export function NewsSection({ articles }: NewsSectionProps) {
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
-    if (!query.trim()) return articles;
+    const lower = query.toLowerCase().trim();
 
-    const lower = query.toLowerCase();
-    return articles.filter(
-      (a) =>
-        a.title?.toLowerCase().includes(lower) ||
-        a.text?.toLowerCase().includes(lower) ||
-        a.thread?.site_full?.toLowerCase().includes(lower) ||
-        a.categories?.some((c) => c.toLowerCase().includes(lower)),
+    const matches = !lower
+      ? articles
+      : articles.filter(
+          (a) =>
+            a.title?.toLowerCase().includes(lower) ||
+            a.text?.toLowerCase().includes(lower) ||
+            a.thread?.site_full?.toLowerCase().includes(lower) ||
+            a.categories?.some((c) => c.toLowerCase().includes(lower)),
+        );
+
+    return [...matches].sort(
+      (a, b) => getArticleTimestamp(b) - getArticleTimestamp(a),
     );
   }, [articles, query]);
 
